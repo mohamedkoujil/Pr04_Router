@@ -1,4 +1,5 @@
 <script setup>
+import { getBasePath } from '@/utils/utils'
 import ExperienceCard from './ExperienceCard.vue'
 import { useRouter } from 'vue-router'
 //define props
@@ -6,10 +7,9 @@ const { experiences } = defineProps({
   experiences: Array
 })
 const router = useRouter()
-console.log(router)
+
 const handleClick = (slug) => {
-  console.log(slug)
-  router.push(`/destination/${router.params.id}/experience/${slug}`)
+  router.push(getBasePath(router.currentRoute.value.path) + '/experience/' + slug)
 }
 </script>
 

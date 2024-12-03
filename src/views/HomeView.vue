@@ -1,6 +1,6 @@
 <script setup>
 import DestinationList from '@/components/DestinationList.vue'
-//console.log(data.destinations)
+////console.log(data.destinations)
 </script>
 
 <template>

@@ -13,7 +13,7 @@ const description = computed(() => {
 })
 
 onMounted(() => {
-  console.log(description.value)
+  //console.log(description.value)
 })
 </script>
 <template>

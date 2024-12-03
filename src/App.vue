@@ -1,15 +1,22 @@
 <script setup>
 import { RouterView } from 'vue-router'
 import NavBar from './components/NavBar.vue'
+//import LoadingComponent from './components/LoadingComponent.vue'
+import { useRoute } from 'vue-router'
+import { getBasePath } from './utils/utils'
+const route = useRoute()
 </script>
 
 <template>
-  <header>
-    <NavBar />
-  </header>
+  <NavBar />
   <div class="container">
-    <RouterView />
+    <router-view v-slot="{ Component }">
+      <transition :name="$route.meta.transition || 'fade'" mode="out-in">
+        <component :is="Component" :key="getBasePath(route.fullPath)" />
+      </transition>
+    </router-view>
   </div>
+  <!-- <LoadingComponent /> -->
 </template>
 
 <style scoped>
@@ -73,5 +80,29 @@ nav a:first-of-type {
     padding: 1rem 0;
     margin-top: 1rem;
   }
+}
+
+/*Animations*/
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition:
+    opacity 0.5s,
+    transform 0.5s;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  opacity: 0;
+  transform: translateX(-30%);
 }
 </style>

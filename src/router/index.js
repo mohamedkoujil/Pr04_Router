@@ -17,9 +17,11 @@ const router = createRouter({
       children: [
         {
           path: 'experience/:slug',
-          component: ExperienceView
+          component: ExperienceView,
+          meta: { transition: 'slide-up' }
         }
-      ]
+      ],
+      meta: { transition: 'slide' }
     }
     /*
     {

@@ -1,7 +1,7 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import data from '../data.json'
-console.log(data.destinations)
+//console.log(data.destinations)
 </script>
 
 <template>
