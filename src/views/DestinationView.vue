@@ -1,51 +1,68 @@
 <script setup>
 import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
-import { reactive, ref, watch } from 'vue'
-import data from '@/data.json' // Assuming data.json is in the root directory
+import { ref, watch } from 'vue'
 import ExperienceSlider from '@/components/ExperienceSlider.vue'
+import { getDestiation } from '@/utils/utils'
 
 const route = useRoute()
 const router = useRouter()
-let destination = reactive({})
+let destination = ref()
+let isLoading = ref(false)
 let id = ref(route.params.id)
 
-destination = data.destinations.find((destination) => destination.id == id.value)
+const fetchDestination = async () => {
+  isLoading.value = true
+  try {
+    const data = await getDestiation(id.value)
+    destination.value = data
+  } catch (error) {
+    console.error('Failed to fetch destination:', error)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+fetchDestination()
 
 watch(
   () => route.params.id,
-  (newId) => {
+  async (newId) => {
     id.value = newId
-    destination = data.destinations.find((destination) => destination.id == id.value)
+    await fetchDestination()
   }
 )
-
-//console.log(id)
-//console.log(destination)
 </script>
 
 <template>
   <div>
-    <h1>{{ destination.name }}</h1>
-    <hr />
+    <div v-if="!isLoading">
+      <div>
+        <h1>{{ destination.name }}</h1>
+        <hr />
 
-    <button @click="router.back()">Go Back</button>
+        <button class="btn" @click="router.back()">Go Back</button>
 
-    <br />
-    <br />
+        <br />
+        <br />
 
-    <div class="destination-details">
-      <img :src="'/images/' + destination.image" :alt="destination.name" />
-      <p>{{ destination.description }}</p>
+        <div class="destination-details">
+          <img :src="'/images/' + destination.image" :alt="destination.name" />
+          <p>{{ destination.description }}</p>
+        </div>
+
+        <ExperienceSlider :experiences="destination.experiences" />
+
+        <router-view v-slot="{ Component }">
+          <transition :name="$route.meta.transition || 'fade'" mode="out-in">
+            <component :is="Component" :key="$route.path" />
+          </transition>
+        </router-view>
+      </div>
     </div>
-
-    <ExperienceSlider :experiences="destination.experiences" />
-
-    <router-view v-slot="{ Component }">
-      <transition :name="$route.meta.transition || 'fade'" mode="out-in">
-        <component :is="Component" :key="$route.path" />
-      </transition>
-    </router-view>
+    <div v-else>
+      <p>Loading...</p>
+    </div>
   </div>
 </template>
 

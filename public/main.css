@@ -198,3 +198,8 @@ a {
   border-radius: 5px;
   border: none;
 }
+
+.btn:hover {
+  background-color: #29a1b6;
+  cursor: pointer;
+}

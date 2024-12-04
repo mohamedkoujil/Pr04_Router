@@ -1,15 +1,10 @@
 <script setup>
-import { computed, onMounted } from 'vue'
+import { onMounted } from 'vue'
 
 //define props
 const { experience, handleClick } = defineProps({
   experience: Object,
   handleClick: Function
-})
-
-//slice the description to 100 characters
-const description = computed(() => {
-  return experience.description.slice(0, 100)
 })
 
 onMounted(() => {
