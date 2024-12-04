@@ -59,12 +59,12 @@ const focusToExperience = async () => {
 
 <style scoped>
 .container #experience img {
-  width: 25%;
+  width: 45%;
 }
 
 #experience div {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 1rem;
 }
 </style>
