@@ -1,9 +1,10 @@
 <script setup>
 import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
-import { ref, watch } from 'vue'
+import { onUnmounted, ref, watch } from 'vue'
 import ExperienceSlider from '@/components/ExperienceSlider.vue'
 import { getDestiation } from '@/utils/utils'
+import LoadingComponent from '@/components/LoadingComponent.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -25,6 +26,11 @@ const fetchDestination = async () => {
 
 fetchDestination()
 
+onUnmounted(() => {
+  const container = document.getElementById('container')
+  container.classList.remove('animate__fadeIn')
+})
+
 watch(
   () => route.params.id,
   async (newId) => {
@@ -37,7 +43,7 @@ watch(
 <template>
   <div>
     <div v-if="!isLoading">
-      <div>
+      <div id="container" class="animate__animated animate__fadeIn">
         <h1>{{ destination.name }}</h1>
         <hr />
 
@@ -52,16 +58,18 @@ watch(
         </div>
 
         <ExperienceSlider :experiences="destination.experiences" />
-
-        <router-view v-slot="{ Component }">
+        <!--
+          <router-view v-slot="{ Component }">
           <transition :name="$route.meta.transition || 'fade'" mode="out-in">
             <component :is="Component" :key="$route.path" />
           </transition>
         </router-view>
+         -->
+        <router-view />
       </div>
     </div>
     <div v-else>
-      <p>Loading...</p>
+      <LoadingComponent />
     </div>
   </div>
 </template>

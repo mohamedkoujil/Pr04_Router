@@ -1,8 +1,8 @@
 <script setup>
-import { ref, watch, nextTick } from 'vue'
+import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import data from '@/data.json'
 import { getExperience } from '@/utils/utils'
+import LoadingComponent from '@/components/LoadingComponent.vue'
 
 const route = useRoute()
 const isLoading = ref(false)
@@ -18,7 +18,6 @@ const fetchExperience = async () => {
     console.error('Failed to fetch experience:', error)
   } finally {
     isLoading.value = false
-    focusToExperience() // Ensure focus happens after data is fetched
   }
 }
 
@@ -32,19 +31,11 @@ watch(
     fetchExperience(slug.value)
   }
 )
-
-const focusToExperience = async () => {
-  await nextTick() // Ensure the DOM is updated
-  const experienceElement = document.getElementById('experience')
-  if (experienceElement) {
-    experienceElement.scrollIntoView({ behavior: 'smooth' })
-  }
-}
 </script>
 
 <template>
   <div class="container">
-    <div id="experience" v-if="!isLoading">
+    <div id="experience" v-if="!isLoading" class="animate__animated animate__backInUp">
       <h1>{{ experience.name }}</h1>
       <div>
         <img :src="'/images/' + experience.image" :alt="experience.name" />
@@ -52,12 +43,18 @@ const focusToExperience = async () => {
       </div>
     </div>
     <div v-else>
-      <div>Loading...</div>
+      <div>
+        <LoadingComponent />
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+.container {
+  height: 28em;
+}
+
 .container #experience img {
   width: 45%;
 }
