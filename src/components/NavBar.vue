@@ -5,7 +5,7 @@ import data from '../data.json'
 </script>
 
 <template>
-  <nav id="nav">
+  <nav id="nav" class="animate__animated animate__fadeInDown">
     <RouterLink active-class="router-link-active" to="/">Home</RouterLink>
     <RouterLink
       active-class="router-link-active"

@@ -1,7 +1,5 @@
 <script setup>
-import { getBasePath } from '@/utils/utils'
 import ExperienceCard from './ExperienceCard.vue'
-import { useRouter } from 'vue-router'
 //define props
 const { experiences } = defineProps({
   experiences: Array

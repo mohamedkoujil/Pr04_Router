@@ -2,6 +2,7 @@ export const getBasePath = (route) => {
   return `/${route.split('/')[1]}/${route.split('/')[2]}`
 }
 
+//Simulate an API call
 export const getData = async () => {
   const data = await import('../data.json')
   return data
