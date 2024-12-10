@@ -25,7 +25,7 @@ export const getExperiences = async (id) => {
 export const getExperience = async (id, slug) => {
   const data = await getExperiences(id)
 
-  return wait(1000).then(() => data.find((experience) => experience.slug === slug))
+  return wait(100).then(() => data.find((experience) => experience.slug === slug))
 }
 
 export const wait = (ms) => {

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { getExperience } from '@/utils/utils'
 import LoadingComponent from '@/components/LoadingComponent.vue'
@@ -17,8 +17,18 @@ const fetchExperience = async () => {
   } catch (error) {
     console.error('Failed to fetch experience:', error)
   } finally {
+    scrollIntoContainer()
     isLoading.value = false
   }
+}
+
+const scrollIntoContainer = () => {
+  console.log('scrolling')
+  const container = document.querySelector('.container')
+  window.scrollTo({
+    top: container.offsetTop + container.offsetHeight,
+    behavior: 'smooth'
+  })
 }
 
 fetchExperience(slug.value)
@@ -31,6 +41,8 @@ watch(
     fetchExperience(slug.value)
   }
 )
+
+onMounted(() => scrollIntoContainer())
 </script>
 
 <template>
@@ -42,7 +54,7 @@ watch(
         <p>{{ experience.description }}</p>
       </div>
     </div>
-    <div v-else>
+    <div class="loading" v-else>
       <div>
         <LoadingComponent />
       </div>
@@ -52,7 +64,14 @@ watch(
 
 <style scoped>
 .container {
+  display: flex;
+  flex-direction: column;
   height: 28em;
+  margin-bottom: 1em;
+}
+
+.loading {
+  margin: -2em 0;
 }
 
 .container #experience img {

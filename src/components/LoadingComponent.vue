@@ -1,9 +1,8 @@
 <style scoped>
 /*center*/
 .container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  place-items: center;
 }
 
 .spinner {
