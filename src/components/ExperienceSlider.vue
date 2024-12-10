@@ -6,17 +6,16 @@ import { useRouter } from 'vue-router'
 const { experiences } = defineProps({
   experiences: Array
 })
-const router = useRouter()
+// const router = useRouter()
 
-const handleClick = (slug) => {
-  router.push(getBasePath(router.currentRoute.value.path) + '/experience/' + slug)
-}
+// const handleClick = (slug) => {
+//   router.push(getBasePath(router.currentRoute.value.path) + '/experience/' + slug)
+// }
 </script>
 
 <template>
   <div class="experiences">
     <ExperienceCard
-      :handleClick="handleClick"
       v-for="experience in experiences"
       :key="experience.slug"
       :experience="experience"

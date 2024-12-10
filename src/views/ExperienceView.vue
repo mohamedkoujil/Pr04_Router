@@ -4,16 +4,22 @@ import { useRoute } from 'vue-router'
 import { getExperience } from '@/utils/utils'
 import LoadingComponent from '@/components/LoadingComponent.vue'
 
+//computed for props
+const { id, slug } = defineProps({
+  id: String,
+  slug: String
+})
+
 const route = useRoute()
 const isLoading = ref(false)
-const id = ref(route.params.id)
-const slug = ref(route.params.slug)
+//const id = ref(route.params.id)
+//const slug = ref(route.params.slug)
 let experience = ref()
 
 const fetchExperience = async () => {
   isLoading.value = true
   try {
-    experience.value = await getExperience(id.value, slug.value)
+    experience.value = await getExperience(id, slug)
   } catch (error) {
     console.error('Failed to fetch experience:', error)
   } finally {
@@ -31,14 +37,12 @@ const scrollIntoContainer = () => {
   })
 }
 
-fetchExperience(slug.value)
+fetchExperience(slug)
 
 watch(
-  () => route.params,
-  (newParams) => {
-    id.value = newParams.id
-    slug.value = newParams.slug
-    fetchExperience(slug.value)
+  () => [id, slug],
+  async () => {
+    await fetchExperience()
   }
 )
 

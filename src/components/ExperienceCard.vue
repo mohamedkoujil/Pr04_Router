@@ -1,21 +1,21 @@
 <script setup>
-import { onMounted } from 'vue'
+import { getBasePath } from '@/utils/utils'
+import { RouterLink, useRouter } from 'vue-router'
+
+const router = useRouter()
 
 //define props
-const { experience, handleClick } = defineProps({
-  experience: Object,
-  handleClick: Function
-})
-
-onMounted(() => {
-  //console.log(description.value)
+const { experience } = defineProps({
+  experience: Object
 })
 </script>
 <template>
-  <div class="card" @click="handleClick(experience.slug)">
-    <img :src="'/images/' + experience.image" alt="experience.title" />
-    <div class="card__text">{{ experience.name }}</div>
-  </div>
+  <RouterLink :to="getBasePath(router.currentRoute.value.path) + '/experience/' + experience.slug">
+    <div class="card">
+      <img :src="'/images/' + experience.image" alt="experience.title" />
+      <div class="card__text">{{ experience.name }}</div>
+    </div>
+  </RouterLink>
 </template>
 
 <style scoped></style>

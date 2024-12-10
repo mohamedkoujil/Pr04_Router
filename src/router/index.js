@@ -14,11 +14,13 @@ const router = createRouter({
     {
       path: '/destination/:id',
       name: 'destination',
+      props: true,
       component: () => import('../views/DestinationView.vue'),
       children: [
         {
           path: 'experience/:slug',
           component: ExperienceView,
+          props: true,
           meta: { transition: 'slide-up' }
         }
       ],

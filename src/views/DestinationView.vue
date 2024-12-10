@@ -6,16 +6,21 @@ import ExperienceSlider from '@/components/ExperienceSlider.vue'
 import { getDestiation } from '@/utils/utils'
 import LoadingComponent from '@/components/LoadingComponent.vue'
 
+//reactive props
+
+const props = defineProps({
+  id: String
+})
+
 const route = useRoute()
 const router = useRouter()
 let destination = ref()
 let isLoading = ref(false)
-let id = ref(route.params.id)
 
 const fetchDestination = async () => {
   isLoading.value = true
   try {
-    const data = await getDestiation(id.value)
+    const data = await getDestiation(props.id)
     destination.value = data
   } catch (error) {
     console.error('Failed to fetch destination:', error)
@@ -32,9 +37,8 @@ onUnmounted(() => {
 })
 
 watch(
-  () => route.params.id,
-  async (newId) => {
-    id.value = newId
+  () => props.id,
+  async () => {
     await fetchDestination()
   }
 )
