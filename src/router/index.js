@@ -18,6 +18,7 @@ const router = createRouter({
       component: () => import('../views/DestinationView.vue'),
       children: [
         {
+          name: 'experience',
           path: 'experience/:slug',
           component: ExperienceView,
           props: true,

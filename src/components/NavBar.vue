@@ -11,7 +11,7 @@ import data from '../data.json'
       active-class="router-link-active"
       v-for="item in data.destinations"
       :key="item.id"
-      :to="'/destination/' + item.id"
+      :to="{ name: 'destination', params: { id: item.id } }"
     >
       {{ item.name }}
     </RouterLink>
